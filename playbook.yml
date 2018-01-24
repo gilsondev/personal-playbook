@@ -1,0 +1,10 @@
+---
+- hosts: all
+  roles:
+    - quickstart
+    - internet
+    - multimedia
+    - graphics
+    - office
+    - development
+    - extensions

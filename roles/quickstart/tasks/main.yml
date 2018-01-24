@@ -1,0 +1,48 @@
+---
+- name: 'Update system'
+  dnf:
+    name: "*"
+    state: latest
+  become: yes
+
+- name: 'Install dependencies of SO'
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - libselinux-python
+
+- name: 'Download RPM Fusion Free Repository'
+  dnf:
+    name: 'https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-27.noarch.rpm'
+    state: present
+  become: yes
+
+- name: 'Download RPM Fusion Nonfree Repository'
+  dnf:
+    name: 'https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-27.noarch.rpm'
+    state: present
+  become: yes
+
+- name: 'Install Fedy'
+  dnf:
+    name: 'https://dl.folkswithhats.org/fedora/27/RPMS/folkswithhats-release.noarch.rpm'
+    state: present
+  become: yes
+
+- name: 'Install Flash Repository'
+  dnf:
+    name: 'http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm'
+    state: present
+  become: yes
+
+- name: 'Install Spotify Repository'
+  command: 'dnf config-manager --add-repo=http://negativo17.org/repos/fedora-spotify.repo'
+  become: yes
+
+- name: 'Install Visual Studio Code Repository'
+  copy:
+    src: 'files/vscode.repo'
+    dest: '/etc/yum.repos.d/vscode.repo'
+  become: yes
